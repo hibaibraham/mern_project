@@ -1,21 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const articleController = require('../controller/articleController');
 
+const {
+  getAllArticles,
+  getMyArticles,
+  getArticleById,
+  createArticle,
+  updateArticle,
+  deleteArticle
+} = require('../controller/articleController');
 
-// GET /api/articles - Tous les articles (avec filtrage optionnel ?author=...)
-router.get('/', articleController.getAllArticles);
+const { protect } = require('../middlewares/authMiddleware');
 
-// GET /api/articles/:id - Un article par son ID
-router.get('/:id', articleController.getArticleById);
+// Consultation publique
+router.get('/', getAllArticles);
 
-// POST /api/articles - Créer un nouvel article
-router.post('/', articleController.createArticle);
+// Route des articles personnels (AVANT /:id pour éviter conflit)
+router.get('/my-articles', protect, getMyArticles);
 
-// PUT /api/articles/:id - Mettre à jour un article
-router.put('/:id', articleController.updateArticle);
+router.get('/:id', getArticleById);
 
-// DELETE /api/articles/:id - Supprimer un article
-router.delete('/:id', articleController.deleteArticle);
+// Opérations d'écriture protégées par authentification JWT
+router.post('/', protect, createArticle);
+router.put('/:id', protect, updateArticle);
+router.delete('/:id', protect, deleteArticle);
 
 module.exports = router;

@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema(
         message: "{VALUE} n'est pas un rôle autorisé"
       },
       default: 'user'
+    },
+    password: {
+      type: String,
+      required: [true, 'Le mot de passe est obligatoire'],
+      minlength: [6, 'Le mot de passe doit comporter au moins 6 caractères']
     }
   },
   { timestamps: true } // Ajoute automatiquement createdAt et updatedAt
