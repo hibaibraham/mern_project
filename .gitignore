@@ -2,5 +2,8 @@ node_modules/
 .env
 mon-compteur-react/
 *.log
+.DS_Store
+mon-compteur-react/
+*.log
 .DS_Store/
 .env
